@@ -221,7 +221,7 @@ def level_three():
             if col == "W":
                 Wall((x, y))
             if col == "E":
-                end_rect = pygame.Rect(x, y, 15, 15)
+                end_rect = pygame.Rect(x, y, 14, 14)
             x += 14
         y += 14
         x = 0
