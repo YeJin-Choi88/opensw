@@ -6,8 +6,12 @@ from tabulate import tabulate
 
 plt.rc("font", family='NanumGothic')
 fire =  pd.read_csv("fire_information.csv", engine='python')
+rain =  pd.read_csv("rain.csv", engine='python')
+
 lst_avg = [0,0,0,0,0,0,0,0,0,0,0,0]
 lst_month=["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"]
+lst_avg_r = [0,0,0,0,0,0,0,0,0,0,0,0]
+lst_month_r=["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"]
 colors = ['bisque','darkorange','burlywood','antiquewhite','tan','orange',
 'darkgoldenrod','goldenrod', 'cornsilk']
 explodes = [0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05]
@@ -34,7 +38,6 @@ for i in range(12):
 fig = plt.figure(figsize=(16, 16))
 ax1 = fig.add_subplot()
 ax2 = ax1.twinx()
-#fire_month.plot.bar(color = "violet", rot=0)
 ax1.bar(list(range(len(lst_month))),fire_month, color='rebeccapurple')
 ax1.set_xticks(list(range(len(lst_month))))
 ax1.set_xticklabels(lst_month)
@@ -42,6 +45,36 @@ ax2.plot(list(range(len(lst_avg))), lst_avg, color='lightgreen', linestyle='--',
 plt.title("월별 화재 건수 및 재산피해소계", fontsize=20)
 #화재 재산피해
 fire_m_max = fire.loc[fire['재산피해소계'].idxmax()]
+
+#월별 강수량
+rain['날짜_datetime'] = pd.to_datetime(rain["날짜"])
+rain['날짜_월'] = pd.to_datetime(rain["날짜"]).dt.month
+rain['날짜_일'] = pd.to_datetime(rain["날짜"]).dt.day
+
+
+
+#화재 발생 월별 건수 추출
+rain_month = pd.value_counts(rain["날짜_월"].values,sort=False)
+
+#월 재산피해 추출 후 표
+rain2 = rain.loc[:,['날짜_월', '강수량(mm)']]
+
+#리스트에 월별 재산피해 평균 입력
+for i in range(12):
+    month = (rain2['날짜_월'] == i+1)
+    avg = rain2.loc[month, '강수량(mm)'].mean()
+    lst_avg_r[i] = avg 
+
+fig = plt.figure(figsize=(14, 14))
+plt.bar(lst_month_r, lst_avg_r, color='darkred')
+plt.title("2017년 월별 강수량", fontsize=20)
+dic = { y:x for x, y in zip(lst_month_r, lst_avg_r) }
+plt.text(dic[min( lst_avg_r)],min(lst_avg_r),
+         str(min(lst_avg_r)) + '\nMin Point\n\n',
+         color='blue',
+         fontweight = 'bold',
+         horizontalalignment='center',
+         verticalalignment='bottom')
 
 
 #지역 별 건수 추출
