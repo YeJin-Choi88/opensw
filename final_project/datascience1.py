@@ -53,16 +53,16 @@ rain['날짜_일'] = pd.to_datetime(rain["날짜"]).dt.day
 
 
 
-#화재 발생 월별 건수 추출
+#강수량 월별 건수 추출
 rain_month = pd.value_counts(rain["날짜_월"].values,sort=False)
 
-#월 재산피해 추출 후 표
+#월 강수량 추출 후 표
 rain2 = rain.loc[:,['날짜_월', '강수량(mm)']]
 
-#리스트에 월별 재산피해 평균 입력
+#리스트에 월별 강수량 평균 입력
 for i in range(12):
     month = (rain2['날짜_월'] == i+1)
-    avg = rain2.loc[month, '강수량(mm)'].mean()
+    avg = round(rain2.loc[month, '강수량(mm)'].mean(),3)
     lst_avg_r[i] = avg 
 
 fig = plt.figure(figsize=(14, 14))
