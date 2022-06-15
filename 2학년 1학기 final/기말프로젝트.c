@@ -26,33 +26,22 @@ typedef struct Player {
 	struct Card player_card[56];
 }Player;
 
-typedef struct _MYTIME
-{
-	int year;
-	int month;
-	int day;
-}MYTIME;
+typedef struct Gamelog {
+	int p1_score;
+	int p2_score;
+}Gamelog;
 
-MYTIME getTime()
-{
-	struct tm* t;
-	time_t base = time(NULL);
-	MYTIME ret;
-
-	t = localtime(&base);
-
-	ret.year = t->tm_year + 1900;
-	ret.month = t->tm_mon + 1;
-	ret.day = t->tm_mday;
-
-	return ret;
-}
+typedef struct Node {
+	Gamelog gamelog;
+	struct Node* pNext;
+}Node;
 
 typedef char element[100];
 typedef struct ListNode { // 노드 타입
 	element data;
 	struct ListNode* link;
 } ListNode;
+
 ListNode* insert_first(ListNode* head, element data)
 {
 	ListNode* node = (ListNode*)malloc(sizeof(ListNode));
@@ -67,15 +56,7 @@ ListNode* insert_first(ListNode* head, element data)
 	}
 	return head; // 변경된 헤드 포인터를 반환한다.
 }
-typedef struct Gamelog {
-	int p1_score;
-	int p2_score;
-}Gamelog;
 
-typedef struct Node {
-	Gamelog gamelog;
-	struct Node* pNext;
-}Node;
 
 Node* phead = NULL;
 Node* ptail = NULL;
@@ -474,6 +455,14 @@ void Display_gamelog(Gamelog* _Gam) {
 	printf("p2 점수: %d\n", _Gam->p2_score);
 
 }
+void AddNode(Gamelog _gamelog) {
+	Node* Newnode = (Node*)malloc(sizeof(Node));
+	Newnode->gamelog = _gamelog;
+	Newnode->pNext = NULL;
+	if (phead == NULL) phead = Newnode;
+	else ptail->pNext = Newnode;
+	ptail = Newnode;
+}
 void Deletedata() {
 	Node* pCur = phead;
 	Node* pDel = NULL;
@@ -485,14 +474,7 @@ void Deletedata() {
 	}
 	phead = ptail = NULL;
 }
-void AddNode(Gamelog _gamelog) {
-	Node* Newnode = (Node*)malloc(sizeof(Node));
-	Newnode->gamelog = _gamelog;
-	Newnode->pNext = NULL;
-	if (phead == NULL) phead = Newnode;
-	else ptail->pNext = Newnode;
-	ptail = Newnode;
-}
+
 void gotoxy(int x, int y)
 {
 	COORD pos = { x,y };
