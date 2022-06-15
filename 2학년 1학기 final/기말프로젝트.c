@@ -1,4 +1,4 @@
-﻿#include <stdio.h>
+#include <stdio.h>
 #include <string.h>
 #include <time.h>
 #include <stdlib.h>
@@ -280,13 +280,13 @@ void explain()
 	printf("★☆★ HALLI GALLI ★☆★");
 	gotoxy(30, 10);
 	printf("게임설명 : 플레이어 1의 카드는 왼쪽에 생기고 ");
-	gotoxy(15, 12);
+	gotoxy(18, 12);
 	printf("플레이어 2의 카드는 오른쪽에 생깁니다. 자신의 턴일시 카드옆에 블록이 생깁니다.");
-	gotoxy(13, 14);
-	printf("자신의 턴일때마다 카드를 내며 만약 똑같은 모양의 카드의 숫자의 합이 5일 경우 종을 눌러");
-	gotoxy(22, 16);
+	gotoxy(25, 14);
+	printf("자신의 턴일때마다 카드를 내며 카드의 숫자의 합이 5일 경우 종을 눌러");
+	gotoxy(30, 16);
 	printf("점수를 획득하고 카드를 다 뽑으면 게임을 종료하게 됩니다.");
-	gotoxy(28, 18);
+	gotoxy(32, 18);
 	printf("총 획득한 점수가 높은 플레이어가 이기는 게임입니다.");
 	gotoxy(30, 20);
 	printf("플레이어 1의 카드 내는 키는 Z, 종을 치는 키는 V 입니다.");
